@@ -1,0 +1,15 @@
+flask>=3.0.0
+flask-cors>=4.0.0
+cryptography>=42.0.0
+pymongo>=4.6.0
+groq>=0.5.0
+certifi>=2024.0.0
+pyotp>=2.9.0
+requests>=2.31.0
+urllib3>=2.2.0
+python-dotenv>=1.0.0
+
+# Optional tools (must be installed separately):
+# Subfinder (subdomain enumeration) - https://github.com/projectdiscovery/subfinder
+# Place subfinder.exe at: C:\tools\subfinder\subfinder.exe
+# Download from: https://github.com/projectdiscovery/subfinder/releases

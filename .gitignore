@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.env.local
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Subfinder binary (if placed locally)
+subfinder.exe
+subfinder
+
+# Local certs/keys
+*.pem
+*.key
+
+# Large media files
+*.mp4
+
