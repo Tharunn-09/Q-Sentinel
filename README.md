@@ -11,7 +11,7 @@
 
 For a comprehensive video demonstration showing the installation, MFA setup, network scanner, AI remediation assistant, and database states in action, please watch the recording:
 
-* **[Watch/Download the Walkthrough Video (MP4)](./Recording%202026-07-31%20210842.mp4)**
+* **[Watch/Download the Walkthrough Video (MP4)](./screen-recording-2026-07-31-210824_iJhbxuON.mp4)**
 
 ---
 
