@@ -11,7 +11,7 @@
 
 For a comprehensive video demonstration showing the installation, MFA setup, network scanner, AI remediation assistant, and database states in action, please watch the recording:
 
-https://github.com/Tharunn-09/Q-Sentinel/blob/main/screen-recording-2026-07-31-210824_iJhbxuON.mp4
+![](https://github.com/Tharunn-09/Q-Sentinel/raw/main/screen-recording-2026-07-31-210824_iJhbxuON.mp4)
 
 ---
 
