@@ -13,6 +13,8 @@ For a comprehensive video demonstration showing the installation, MFA setup, net
 
 * **[Watch/Download the Walkthrough Video (MP4)](./screen-recording-2026-07-31-210824_iJhbxuON.mp4)**
 
+<video src="./screen-recording-2026-07-31-210824_iJhbxuON.mp4" width="100%" controls></video>
+
 ---
 
 ## Table of Contents
