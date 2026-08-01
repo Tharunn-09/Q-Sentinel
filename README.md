@@ -7,7 +7,9 @@
 
 ---
 
-## 🎥 Walkthrough Video & Demo
+## 🚀 Live Demo & Walkthrough Video
+
+* **Live Demo URL:** [https://q-sentinel-mu.vercel.app/](https://q-sentinel-mu.vercel.app/)
 
 For a comprehensive video demonstration showing the installation, MFA setup, network scanner, AI remediation assistant, and database states in action, please watch the recording:
 
