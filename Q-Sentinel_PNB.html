@@ -2973,7 +2973,9 @@ async function fetchCrtShProfile(hostname) {
 //  │    If running locally:  http://localhost:5000        │
 //  │    If deployed:         https://your-server.com      │
 //  └──────────────────────────────────────────────────────┘
-var SCANNER_BACKEND_URL = 'http://localhost:5004';
+var SCANNER_BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? 'http://localhost:5004'
+  : window.location.origin;
 var SCANNER_API_KEY     = 'qsentinel-team-vectorx-2026';
 
 // ── Fetch real TLS profile from the Python backend (phase1_scanner)
