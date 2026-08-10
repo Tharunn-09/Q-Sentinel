@@ -345,8 +345,52 @@ def subfinder_subdomains():
         print("[SUBFINDER] Timed out after 60s")
         return jsonify({"error": "Subfinder timed out", "subdomains": [], "count": 0}), 200
     except FileNotFoundError:
-        print("[SUBFINDER] Binary not found")
-        return jsonify({"error": "Subfinder binary not found at C:\\tools\\subfinder\\subfinder.exe", "subdomains": [], "count": 0}), 200
+        print("[SUBFINDER] Binary not found. Executing OSINT passive DNS fallback...")
+        osint_subs = set()
+        
+        # 1. Try crt.sh (Certificate Transparency Logs)
+        try:
+            import urllib.request, json as json_mod
+            url = f"https://crt.sh/?q=%.{base_domain}&output=json"
+            req = urllib.request.Request(
+                url, 
+                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+            )
+            with urllib.request.urlopen(req, timeout=15) as response:
+                data = json_mod.loads(response.read().decode('utf-8'))
+                for entry in data:
+                    name_value = entry.get("name_value", "")
+                    for sub in name_value.split():
+                        sub = sub.strip().lower()
+                        if sub.startswith("*."):
+                            sub = sub[2:]
+                        if sub.endswith("." + base_domain) and sub not in osint_subs:
+                            osint_subs.add(sub)
+        except Exception as e:
+            print(f"[SUBFINDER-OSINT] crt.sh failed: {str(e)}")
+
+        # 2. Try HackerTarget passive DNS
+        try:
+            import urllib.request
+            url = f"https://api.hackertarget.com/hostsearch/?q={base_domain}"
+            req = urllib.request.Request(
+                url, 
+                headers={'User-Agent': 'Mozilla/5.0'}
+            )
+            with urllib.request.urlopen(req, timeout=10) as response:
+                content = response.read().decode('utf-8')
+                for line in content.split("\n"):
+                    parts = line.split(",")
+                    if len(parts) >= 1:
+                        sub = parts[0].strip().lower()
+                        if sub.endswith("." + base_domain) and sub not in osint_subs:
+                            osint_subs.add(sub)
+        except Exception as e:
+            print(f"[SUBFINDER-OSINT] HackerTarget failed: {str(e)}")
+
+        subdomains = sorted(list(osint_subs))
+        print(f"[SUBFINDER-OSINT] Found {len(subdomains)} subdomains for {base_domain}")
+        return jsonify({"hostname": hostname, "base_domain": base_domain, "subdomains": subdomains, "count": len(subdomains)})
     except Exception as e:
         print(f"[SUBFINDER] Error: {str(e)}")
         return jsonify({"error": f"Subfinder failed: {str(e)}", "subdomains": [], "count": 0}), 200
