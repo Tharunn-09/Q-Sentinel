@@ -5889,7 +5889,7 @@ setTimeout(drawTopo,500);
   var dot=document.getElementById('backend-dot');
   var lbl=document.getElementById('backend-label');
   function ping(){
-    fetch('http://localhost:5004/health',{method:'GET',cache:'no-cache'})
+    fetch(SCANNER_BACKEND_URL + '/health',{method:'GET',cache:'no-cache'})
       .then(function(r){
         if(r.ok){dot.style.background='var(--green)';lbl.textContent='Backend: Online';}
         else{dot.style.background='var(--red)';lbl.textContent='Backend: Error';}
