@@ -1620,17 +1620,17 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:3px;backgroun
         </div>
       </div>
       <div id="rpt-sched" style="display:none;">
-        <div class="flex-between mb14"><div><div class="pg-title" style="margin:0;">Schedule Reporting</div></div><div class="flex-center"><div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);">Enable <div class="toggle" onclick="this.classList.toggle('off')"></div></div><div class="back-btn" onclick="rptBack()">← Back</div></div></div>
+        <div class="flex-between mb14"><div><div class="pg-title" style="margin:0;">Schedule Reporting</div></div><div class="flex-center"><div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);">Enable <div class="toggle" id="sched-enable-toggle" onclick="this.classList.toggle('off')"></div></div><div class="back-btn" onclick="rptBack()">← Back</div></div></div>
         <div class="card"><div class="sched-grid">
-          <div><div class="form-field"><label>Report Type</label><select><option>Executive Summary Report</option><option>CBOM Report</option><option>Quantum Risk Analysis</option><option>Full Security Report</option></select></div><div class="form-field"><label>Frequency</label><select><option>Weekly</option><option>Daily</option><option>Monthly</option></select></div><div class="form-field"><label>Select Assets</label><select><option>All Assets</option><option>High Risk Only</option><option>Web Apps</option></select></div><div class="form-field"><label>Include Sections</label><div class="chk-row"><label class="chk"><input type="checkbox" checked/> CBOM</label><label class="chk"><input type="checkbox" checked/> Risk Analysis</label><label class="chk"><input type="checkbox" checked/> PQC Posture</label><label class="chk"><input type="checkbox" checked/> Cyber Rating</label></div></div></div>
-          <div><div class="form-section-title">📅 Schedule Details</div><div class="form-field"><label>Date</label><input type="date" value="2026-04-25"/></div><div class="form-field"><label>Time</label><select><option>09:00 AM (IST)</option><option>12:00 PM (IST)</option></select></div><div style="font-size:11px;color:var(--text3);margin-bottom:12px;">Time Zone: Asia/Kolkata</div><div class="form-section-title">📧 Delivery</div><div class="form-field"><label>Email</label><input type="email" value="security@pnb.bank.in"/></div><div class="form-field"><label>Save Path</label><input type="text" value="/Reports/Quarterly/"/></div><button class="btn btn-primary" style="width:100%;padding:11px;" onclick="toast('Schedule saved! Report will be delivered weekly.','green')">Schedule Report →</button></div>
+          <div><div class="form-field"><label>Report Type</label><select id="sched-report-type"><option>Executive Summary Report</option><option>CBOM Report</option><option>Quantum Risk Analysis</option><option>Full Security Report</option></select></div><div class="form-field"><label>Frequency</label><select id="sched-frequency"><option>Weekly</option><option>Daily</option><option>Monthly</option></select></div><div class="form-field"><label>Select Assets</label><select id="sched-assets"><option>All Assets</option><option>High Risk Only</option><option>Web Apps</option></select></div><div class="form-field"><label>Include Sections</label><div class="chk-row"><label class="chk"><input type="checkbox" id="sched-sec-cbom" checked/> CBOM</label><label class="chk"><input type="checkbox" id="sched-sec-risk" checked/> Risk Analysis</label><label class="chk"><input type="checkbox" id="sched-sec-pqc" checked/> PQC Posture</label><label class="chk"><input type="checkbox" id="sched-sec-rating" checked/> Cyber Rating</label></div></div></div>
+          <div><div class="form-section-title">📅 Schedule Details</div><div class="form-field"><label>Date</label><input type="date" id="sched-date" value="2026-04-25"/></div><div class="form-field"><label>Time</label><select id="sched-time"><option>09:00 AM (IST)</option><option>12:00 PM (IST)</option></select></div><div style="font-size:11px;color:var(--text3);margin-bottom:12px;">Time Zone: Asia/Kolkata</div><div class="form-section-title">📧 Delivery</div><div class="form-field"><label>Email</label><input type="email" id="sched-email" value="security@pnb.bank.in"/></div><div class="form-field"><label>Save Path</label><input type="text" id="sched-save-path" value="/Reports/Quarterly/"/></div><button class="btn btn-primary" style="width:100%;padding:11px;" onclick="saveReportSchedule()">Schedule Report →</button></div>
         </div></div>
       </div>
       <div id="rpt-demand" style="display:none;">
         <div class="flex-between mb14"><div><div class="pg-title" style="margin:0;">On-Demand Reporting</div></div><div class="back-btn" onclick="rptBack()">← Back</div></div>
         <div class="card"><div class="sched-grid">
-          <div><div class="form-field"><label>Report Type</label><select><option>Select Report...</option><option>Executive Reporting</option><option>CBOM Report</option><option>Quantum Risk Analysis</option><option>Cyber Rating (Tiers 1–4)</option></select></div><div style="background:rgba(155,28,46,.04);border:1px solid rgba(155,28,46,.12);border-radius:8px;padding:12px;"><div class="form-section-title">⚙ Advanced Settings</div><div style="display:flex;gap:10px;flex-wrap:wrap;"><div class="form-field" style="flex:1;min-width:110px;"><label>Format</label><select><option>PDF</option><option>Excel</option><option>JSON</option></select></div><div style="padding-top:20px;"><label class="chk mb6"><input type="checkbox" checked/> Include Charts</label><br/><label class="chk"><input type="checkbox"/> Password Protect</label></div></div></div></div>
-          <div><div class="form-section-title">📧 Delivery</div><div class="toggle-row"><label class="chk"><input type="checkbox" checked/> Email</label><div class="toggle" onclick="this.classList.toggle('off')"></div></div><div class="form-field"><input type="email" placeholder="Enter email..."/></div><div class="toggle-row"><label class="chk"><input type="checkbox" checked/> Save to Location</label><div class="toggle" onclick="this.classList.toggle('off')"></div></div><div class="form-field"><input type="text" value="/Reports/OnDemand/"/></div><label class="chk mb10"><input type="checkbox"/> Slack Notification</label><br/><button class="btn btn-primary" style="width:100%;padding:11px;margin-top:10px;" onclick="generateOnDemandReport()">📄 Generate Report</button></div>
+          <div><div class="form-field"><label>Report Type</label><select id="demand-report-type"><option>Executive Reporting</option><option>CBOM Report</option><option>Quantum Risk Analysis</option><option>Cyber Rating (Tiers 1–4)</option></select></div><div style="background:rgba(155,28,46,.04);border:1px solid rgba(155,28,46,.12);border-radius:8px;padding:12px;"><div class="form-section-title">⚙ Advanced Settings</div><div style="display:flex;gap:10px;flex-wrap:wrap;"><div class="form-field" style="flex:1;min-width:110px;"><label>Format</label><select id="demand-format"><option>PDF</option><option>Excel</option><option>JSON</option></select></div><div style="padding-top:20px;"><label class="chk mb6"><input type="checkbox" id="demand-charts" checked/> Include Charts</label><br/><label class="chk"><input type="checkbox" id="demand-password"/> Password Protect</label></div></div></div></div>
+          <div><div class="form-section-title">📧 Delivery</div><div class="toggle-row"><label class="chk"><input type="checkbox" id="demand-email-chk" checked/> Email</label><div class="toggle" id="demand-email-toggle" onclick="this.classList.toggle('off')"></div></div><div class="form-field"><input type="email" id="demand-email" placeholder="Enter email..."/></div><div class="toggle-row"><label class="chk"><input type="checkbox" id="demand-save-chk" checked/> Save to Location</label><div class="toggle" id="demand-save-toggle" onclick="this.classList.toggle('off')"></div></div><div class="form-field"><input type="text" id="demand-save-path" value="/Reports/OnDemand/"/></div><label class="chk mb10"><input type="checkbox" id="demand-slack-chk"/> Slack Notification</label><br/><button class="btn btn-primary" style="width:100%;padding:11px;margin-top:10px;" onclick="generateOnDemandReport()">📄 Generate Report</button></div>
         </div></div>
       </div>
     </div>
@@ -1640,121 +1640,329 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:3px;backgroun
       <div class="pg-title">🧮 Scoring Formula</div>
       <div class="pg-sub">Transparent breakdown of how Q-Sentinel calculates quantum risk scores — every weight, every rule.</div>
 
-      <div class="g2 mb14">
-        <div class="card">
-          <div class="card-title mb14">📐 Risk Score Formula (0–100)</div>
-          <div style="background:var(--bg2);border:1px solid rgba(155,28,46,.2);border-radius:9px;padding:14px 18px;margin-bottom:16px;font-family:monospace;font-size:13px;color:#e8b84b;line-height:2;">
-            <span style="color:var(--text3);">Risk Score</span> = <span style="color:var(--red);">AsymmetricCryptoRisk (35%)</span><br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span style="color:var(--orange);">TLS Protocol Penalty (20%)</span><br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span style="color:var(--yellow);">Cipher Weakness (15%)</span><br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span style="color:var(--blue);">SSL Certificate Health (20%)</span><br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span style="color:var(--green);">PQC Readiness Bonus (10%)</span><br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— <span style="color:var(--green);">Strong Config Deductions</span>
+      <div class="g2 mb14" style="grid-template-columns: 1.1fr 0.9fr;">
+        <!-- Left Column: Explanatory -->
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          
+          <div class="card">
+            <div class="card-title" style="display:flex; align-items:center; gap:8px;">📐 Risk Scoring Engine</div>
+            <div class="card-sub">The security score operates on a reverse vulnerability scale (0 to 100). A higher score indicates elevated vulnerability to quantum and classical cryptanalysis.</div>
+            
+            <div style="background:var(--bg2); border:1px solid var(--border2); border-radius:9px; padding:15px; margin-bottom:15px;">
+              <div style="font-family:'Courier New', monospace; font-size:13px; color:var(--pnb-gold); line-height:1.8;">
+                <strong style="color:var(--text);">Risk Score</strong> = Max(<br>
+                &nbsp;&nbsp;Asymmetric Threat (Shor's) +<br>
+                &nbsp;&nbsp;Protocol Version Penalty +<br>
+                &nbsp;&nbsp;Cipher Mode Vulnerability (Grover's) -<br>
+                &nbsp;&nbsp;Mitigation Deductions, 100<br>
+                )
+              </div>
+            </div>
+
+            <div class="score-formula-wrap" style="display:flex; flex-direction:column; gap:10px;">
+              <div class="sf-row" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px;">
+                <div><strong>🔑 Asymmetric Crypto (Shor's Impact)</strong><br><span style="font-size:11px; color:var(--text3);">RSA, ECDSA, and DSA can be solved in polynomial time by Shor's Algorithm.</span></div>
+                <div style="color:var(--red); font-weight:700;">Up to +85</div>
+              </div>
+              <div class="sf-row" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px;">
+                <div><strong>🔒 TLS Version Penalty</strong><br><span style="font-size:11px; color:var(--text3);">Legacy protocols (TLS 1.0, 1.1) lack secure handshakes and modern key exchanges.</span></div>
+                <div style="color:var(--orange); font-weight:700;">Up to +20</div>
+              </div>
+              <div class="sf-row" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px;">
+                <div><strong>🧬 Cipher & Grover's Penalty</strong><br><span style="font-size:11px; color:var(--text3);">CBC modes, RC4, DES, or key size downgrades (e.g. AES-128 is halved to 64-bit security).</span></div>
+                <div style="color:var(--yellow); font-weight:700;">Up to +30</div>
+              </div>
+              <div class="sf-row" style="display:flex; justify-content:space-between; align-items:center; padding-bottom:4px;">
+                <div><strong>🛡 PQC Mitigation Deductions</strong><br><span style="font-size:11px; color:var(--text3);">Deductions applied for TLS 1.3, AEAD (GCM/ChaCha20), and PQC hybrid negotiation.</span></div>
+                <div style="color:var(--green); font-weight:700;">Up to -48</div>
+              </div>
+            </div>
           </div>
 
-          <div class="score-formula-wrap">
-            <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;">Component Weights</div>
-
-            <div class="sf-row">
-              <div class="sf-name">🔑 Asymmetric Key (PQC)</div>
-              <div class="sf-weight">35%</div>
-              <div class="sf-bar-track"><div class="sf-bar-fill" style="width:35%;background:var(--red);"></div></div>
-              <div class="sf-desc">RSA/ECC breakable by Shor's Algorithm on quantum computers</div>
+          <div class="card">
+            <div class="card-title">🔢 Step-by-Step Scoring Parameters</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+              <div style="background:var(--surface2); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                <div style="font-size:11px; font-weight:700; color:var(--red); margin-bottom:6px;">ASYMMETRIC ALGO</div>
+                <div style="font-size:11px; font-family:monospace; line-height:1.6; color:var(--text2);">
+                  RSA &le; 1024 bit: +85<br>
+                  RSA &le; 2048 bit: +75<br>
+                  RSA &le; 3072 bit: +60<br>
+                  RSA &gt; 3072 bit: +45<br>
+                  ECC &le; 256 bit: +70<br>
+                  ECC &gt; 256 bit: +55<br>
+                  DSA / Legacy: +85<br>
+                  Post-Quantum (PQC): +0
+                </div>
+              </div>
+              <div style="background:var(--surface2); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                <div style="font-size:11px; font-weight:700; color:var(--orange); margin-bottom:6px;">TLS PROTOCOL</div>
+                <div style="font-size:11px; font-family:monospace; line-height:1.6; color:var(--text2);">
+                  TLS 1.0: +20<br>
+                  TLS 1.1: +15<br>
+                  TLS 1.2: +5<br>
+                  TLS 1.3: -8<br>
+                  <br>
+                  <span style="color:var(--yellow);">CIPHER MODE</span><br>
+                  CBC mode: +15<br>
+                  RC4: +25<br>
+                  DES/3DES: +20<br>
+                  NULL/EXPORT: +30
+                </div>
+              </div>
             </div>
-            <div class="sf-row">
-              <div class="sf-name">📜 SSL Certificate Health</div>
-              <div class="sf-weight">20%</div>
-              <div class="sf-bar-track"><div class="sf-bar-fill" style="width:20%;background:var(--blue);"></div></div>
-              <div class="sf-desc">Expiry days, key size, issuer trust chain</div>
-            </div>
-            <div class="sf-row">
-              <div class="sf-name">🔒 TLS Protocol Version</div>
-              <div class="sf-weight">20%</div>
-              <div class="sf-bar-track"><div class="sf-bar-fill" style="width:20%;background:var(--orange);"></div></div>
-              <div class="sf-desc">TLS 1.0/1.1 = high penalty; TLS 1.3 = deduction</div>
-            </div>
-            <div class="sf-row">
-              <div class="sf-name">🧬 Cipher Suite Weakness</div>
-              <div class="sf-weight">15%</div>
-              <div class="sf-bar-track"><div class="sf-bar-fill" style="width:15%;background:var(--yellow);"></div></div>
-              <div class="sf-desc">CBC/RC4/DES/NULL/EXPORT = penalty; GCM/ChaCha = deduction</div>
-            </div>
-            <div class="sf-row">
-              <div class="sf-name">🛡 Vulnerability CVEs</div>
-              <div class="sf-weight">10%</div>
-              <div class="sf-bar-track"><div class="sf-bar-fill" style="width:10%;background:var(--pnb-gold);"></div></div>
-              <div class="sf-desc">Known published CVEs on detected server software</div>
+            <div style="background:var(--surface2); padding:10px; border-radius:6px; border:1px solid var(--border); margin-top:10px;">
+              <div style="font-size:11px; font-weight:700; color:var(--green); margin-bottom:6px;">DEDUCTIONS & BONUSES</div>
+              <div style="font-size:11px; font-family:monospace; line-height:1.6; color:var(--text2);">
+                ChaCha20 Stream: -10 | GCM AEAD (non-CBC): -5 | Symmetric Key &lt; 256-bit: +10<br>
+                Post-Quantum Cryptography (PQC) Active Support: -30
+              </div>
             </div>
           </div>
+
+          <div class="card">
+            <div class="card-title">⚡ Risk Threshold Tiers</div>
+            <table class="tbl" style="width:100%; font-size:11px; border-collapse:collapse; margin-top:8px;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border2); text-align:left;">
+                  <th style="padding:6px;">Tier</th>
+                  <th style="padding:6px;">Score</th>
+                  <th style="padding:6px;">Description / Action Plan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px;"><span class="badge b-red">CRITICAL</span></td>
+                  <td style="padding:6px; font-family:monospace;">76 - 100</td>
+                  <td style="padding:6px; color:var(--text2);">Vulnerable to immediate Shor's decryption. Upgrade immediately.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px;"><span class="badge b-orange">HIGH</span></td>
+                  <td style="padding:6px; font-family:monospace;">51 - 75</td>
+                  <td style="padding:6px; color:var(--text2);">Legacy classical asymmetric algorithms. Migrate within 12 months.</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:6px;"><span class="badge b-yellow">MODERATE</span></td>
+                  <td style="padding:6px; font-family:monospace;">26 - 50</td>
+                  <td style="padding:6px; color:var(--text2);">Standard RSA-3072 / ECC-384. Plan PQC hybrid transition.</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px;"><span class="badge b-green">SAFE</span></td>
+                  <td style="padding:6px; font-family:monospace;">0 - 25</td>
+                  <td style="padding:6px; color:var(--text2);">Post-quantum algorithms enabled or TLS 1.3 with AES-256-GCM.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
 
-        <div class="card">
-          <div class="card-title mb14">📊 SSL Grade Rubric (Qualys SSL Labs)</div>
-          <table class="tbl" style="margin-bottom:16px;">
-            <thead><tr><th>Grade</th><th>TLS Version</th><th>Cipher</th><th>Key Size</th><th>Cert Valid</th></tr></thead>
-            <tbody>
-              <tr><td><span class="badge b-teal" style="font-size:13px;font-weight:800;">A+</span></td><td>TLS 1.3</td><td>ECDHE + GCM/ChaCha</td><td>≥ 2048-bit</td><td>✔ Valid, &gt;30 days</td></tr>
-              <tr><td><span class="badge b-green" style="font-size:13px;font-weight:800;">A</span></td><td>TLS 1.2/1.3</td><td>ECDHE + GCM</td><td>≥ 2048-bit</td><td>✔ Valid</td></tr>
-              <tr><td><span class="badge b-yellow" style="font-size:13px;font-weight:800;">B</span></td><td>TLS 1.2</td><td>CBC or no PFS</td><td>2048-bit</td><td>✔ Valid</td></tr>
-              <tr><td><span class="badge b-orange" style="font-size:13px;font-weight:800;">C</span></td><td>TLS 1.1</td><td>Any</td><td>1024-bit</td><td>✔ Valid</td></tr>
-              <tr><td><span class="badge b-red" style="font-size:13px;font-weight:800;">F</span></td><td>TLS 1.0 / SSLv3</td><td>RC4/NULL/EXPORT</td><td>&lt; 1024-bit</td><td>✘ Expired</td></tr>
-            </tbody>
-          </table>
+        <!-- Right Column: Interactive Sandbox -->
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div class="card" style="border:1px solid rgba(232,184,75,0.3); background:linear-gradient(145deg, var(--surface), rgba(155,28,46,0.1));">
+            <div class="card-title" style="color:var(--pnb-gold); font-size:16px; display:flex; align-items:center; gap:8px;">
+              <span>🎛 Evaluator's PQC Risk Sandbox</span>
+            </div>
+            <div class="card-sub">Simulate custom cryptographic parameters to see how Q-Sentinel calculates risk level & generates actions in real-time.</div>
+            
+            <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:18px;">
+              <div class="lg-field">
+                <label>Asymmetric Encryption (Shor's Target)</label>
+                <select id="sandbox-asym" class="btn-ghost" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border2); color:var(--text); background:var(--surface2);" onchange="updateSandboxRisk()">
+                  <option value="rsa-1024">RSA (1024-bit) — Weak / Critical</option>
+                  <option value="rsa-2048" selected>RSA (2048-bit) — Standard Legacy</option>
+                  <option value="rsa-3072">RSA (3072-bit) — Compliant Classical</option>
+                  <option value="rsa-4096">RSA (4096-bit) — Hardened Classical</option>
+                  <option value="ecc-256">ECDSA (256-bit) — Suite B Curve</option>
+                  <option value="ecc-384">ECDSA (384-bit) — High Strength Curve</option>
+                  <option value="pqc">ML-KEM / ML-DSA — Quantum-Resistant Standard</option>
+                </select>
+              </div>
 
-          <div class="card-title mb14">⚡ Quantum Risk Levels</div>
-          <table class="tbl">
-            <thead><tr><th>Level</th><th>Score Range</th><th>Trigger Condition</th></tr></thead>
-            <tbody>
-              <tr><td><span class="badge b-red">CRITICAL</span></td><td>76–100</td><td>TLS 1.0/1.1 or Key ≤1024-bit or RC4/DES/3DES</td></tr>
-              <tr><td><span class="badge b-orange">HIGH</span></td><td>51–75</td><td>RSA ≤2048-bit or CBC cipher or ECDSA</td></tr>
-              <tr><td><span class="badge b-yellow">MODERATE</span></td><td>26–50</td><td>RSA ≤3072-bit</td></tr>
-              <tr><td><span class="badge b-green">LOW</span></td><td>0–25</td><td>TLS 1.3 + GCM/ChaCha + large key</td></tr>
-            </tbody>
-          </table>
+              <div class="lg-field">
+                <label>TLS Protocol Version</label>
+                <select id="sandbox-tls" class="btn-ghost" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border2); color:var(--text); background:var(--surface2);" onchange="updateSandboxRisk()">
+                  <option value="1.0">TLS 1.0 (Deprecated/POODLE Vulnerable)</option>
+                  <option value="1.1">TLS 1.1 (Deprecated)</option>
+                  <option value="1.2" selected>TLS 1.2 (Standard Production)</option>
+                  <option value="1.3">TLS 1.3 (Modern / Secure)</option>
+                </select>
+              </div>
+
+              <div class="lg-field">
+                <label>Symmetric Cipher Suite (Grover's Target)</label>
+                <select id="sandbox-cipher" class="btn-ghost" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border2); color:var(--text); background:var(--surface2);" onchange="updateSandboxRisk()">
+                  <option value="null">NULL / EXPORT (No Encryption)</option>
+                  <option value="rc4">RC4 (Broken Stream Cipher)</option>
+                  <option value="3des">3DES (Triple DES SWEET32)</option>
+                  <option value="aes-128-cbc">AES-128-CBC (Block Padding Risk / 128-bit key)</option>
+                  <option value="aes-256-cbc" selected>AES-256-CBC (Block Padding Risk / 256-bit key)</option>
+                  <option value="aes-128-gcm">AES-128-GCM (Authenticated AEAD / 128-bit key)</option>
+                  <option value="aes-256-gcm">AES-256-GCM (Authenticated AEAD / 256-bit key)</option>
+                  <option value="chacha20">ChaCha20-Poly1305 (High Speed AEAD / 256-bit key)</option>
+                </select>
+              </div>
+
+              <div class="flex-between" style="background:var(--surface2); padding:10px; border-radius:8px; border:1px solid var(--border);">
+                <div>
+                  <span style="font-size:12px; font-weight:600; color:var(--text);">Hybrid PQC Protocol</span><br>
+                  <span style="font-size:10px; color:var(--text3);">Negotiate post-quantum key exchange (X25519+ML-KEM)</span>
+                </div>
+                <input type="checkbox" id="sandbox-pqc-hybrid" style="width:18px; height:18px; cursor:pointer;" onchange="updateSandboxRisk()">
+              </div>
+            </div>
+
+            <!-- Sandbox Results Display -->
+            <div style="background:var(--bg2); border-radius:9px; padding:16px; border:1px solid var(--border2); text-align:center;">
+              <div style="font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--text3); margin-bottom:8px;">Calculated PQC Risk Score</div>
+              
+              <div style="display:flex; justify-content:center; align-items:baseline; gap:8px;">
+                <span id="sandbox-score-val" style="font-size:42px; font-weight:900; color:var(--red);">80</span>
+                <span style="font-size:18px; color:var(--text3);">/ 100</span>
+              </div>
+              
+              <div id="sandbox-badge" class="badge b-red" style="font-size:12px; padding:4px 12px; border-radius:6px; margin:8px 0; font-weight:800;">CRITICAL RISK</div>
+              
+              <div id="sandbox-desc" style="font-size:11.5px; color:var(--text2); line-height:1.5; margin-top:8px; border-top:1px solid var(--border); padding-top:8px; text-align:left;">
+                <!-- Filled dynamically by JavaScript -->
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
 
-      <div class="card mb14">
-        <div class="card-title mb14">🔢 Exact Scoring Calculation (Step-by-Step)</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
-          <div style="background:var(--surface2);border-radius:8px;padding:13px;border:1px solid var(--border);">
-            <div style="font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px;">Step 1 — Asymmetric Crypto</div>
-            <div style="font-size:11px;color:var(--text2);line-height:2.0;font-family:monospace;">
-              RSA ≤1024-bit → +90<br/>
-              RSA ≤2048-bit → +75<br/>
-              RSA ≤3072-bit → +55<br/>
-              RSA &gt;3072-bit → +35<br/>
-              ECDSA ≤256-bit → +50<br/>
-              ECDSA &gt;256-bit → +40<br/>
-              DSA (any) → +80
-            </div>
-          </div>
-          <div style="background:var(--surface2);border-radius:8px;padding:13px;border:1px solid var(--border);">
-            <div style="font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px;">Step 2 — TLS Protocol</div>
-            <div style="font-size:11px;color:var(--text2);line-height:2.0;font-family:monospace;">
-              TLS 1.0 → +25 (POODLE CVE)<br/>
-              TLS 1.1 → +15 (deprecated)<br/>
-              TLS 1.2 → +0 (acceptable)<br/>
-              TLS 1.3 → −8 (modern)<br/>
-              <br/>
-              ChaCha20 → −10<br/>
-              GCM (non-CBC) → −5
-            </div>
-          </div>
-          <div style="background:var(--surface2);border-radius:8px;padding:13px;border:1px solid var(--border);">
-            <div style="font-size:11px;font-weight:700;color:var(--yellow);text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px;">Step 3 — Cipher Weakness</div>
-            <div style="font-size:11px;color:var(--text2);line-height:2.0;font-family:monospace;">
-              CBC mode → +15<br/>
-              RC4 → +25 (broken)<br/>
-              DES → +20 (SWEET32)<br/>
-              3DES → +20 (SWEET32)<br/>
-              NULL/EXPORT → +30<br/>
-              <br/>
-              Max score capped: 100
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- Live Simulator Logic -->
+      <script>
+        function updateSandboxRisk() {
+          var asym = document.getElementById('sandbox-asym').value;
+          var tls = document.getElementById('sandbox-tls').value;
+          var cipher = document.getElementById('sandbox-cipher').value;
+          var pqcHybrid = document.getElementById('sandbox-pqc-hybrid').checked;
+
+          var score = 0;
+          var details = [];
+
+          // 1. Asymmetric Crypto
+          if (asym === 'pqc') {
+            score += 0;
+            details.push('🔑 <strong>ML-KEM / ML-DSA (PQC Standard)</strong>: Post-Quantum cryptographic algorithm active (Shor-resistant) (+0)');
+          } else {
+            if (asym === 'rsa-1024') {
+              score += 85;
+              details.push('❌ <strong>RSA-1024</strong>: Critically weak key size. Solvable by Shor\'s algorithm (+85)');
+            } else if (asym === 'rsa-2048') {
+              score += 75;
+              details.push('⚠️ <strong>RSA-2048</strong>: Legacy asymmetric key. Vulnerable to quantum decryption (+75)');
+            } else if (asym === 'rsa-3072') {
+              score += 60;
+              details.push('⚠️ <strong>RSA-3072</strong>: Compliant classical key, still vulnerable to Shor\'s algorithm (+60)');
+            } else if (asym === 'rsa-4096') {
+              score += 45;
+              details.push('⚠️ <strong>RSA-4096</strong>: High classical strength, but fully solvable by quantum computing (+45)');
+            } else if (asym === 'ecc-256') {
+              score += 70;
+              details.push('⚠️ <strong>ECDSA-256</strong>: Small curve size, highly vulnerable to Shor\'s algorithm (+70)');
+            } else if (asym === 'ecc-384') {
+              score += 55;
+              details.push('⚠️ <strong>ECDSA-384</strong>: Strong classical curve, but quantum breakable (+55)');
+            }
+          }
+
+          // 2. TLS Version
+          if (tls === '1.0') {
+            score += 20;
+            details.push('❌ <strong>TLS 1.0</strong>: Deprecated protocol version with high handshake vulnerabilities (+20)');
+          } else if (tls === '1.1') {
+            score += 15;
+            details.push('❌ <strong>TLS 1.1</strong>: Legacy protocol version (+15)');
+          } else if (tls === '1.2') {
+            score += 5;
+            details.push('⚠️ <strong>TLS 1.2</strong>: Acceptable classical protocol, but lacks TLS 1.3 quantum-ready improvements (+5)');
+          } else if (tls === '1.3') {
+            score -= 8;
+            details.push('✅ <strong>TLS 1.3</strong>: Modern secure protocol. Restricts weak ciphers (-8)');
+          }
+
+          // 3. Cipher weaknesses & Grover's
+          if (cipher === 'null') {
+            score += 30;
+            details.push('❌ <strong>NULL / No Encryption</strong>: Data transmitted in plaintext (+30)');
+          } else if (cipher === 'rc4') {
+            score += 25;
+            details.push('❌ <strong>RC4 stream</strong>: Broken stream cipher algorithm (+25)');
+          } else if (cipher === '3des') {
+            score += 20;
+            details.push('❌ <strong>3DES</strong>: Weak triple DES algorithm subject to Sweet32 attack (+20)');
+          } else if (cipher === 'aes-128-cbc') {
+            score += 15 + 10; // CBC penalty + key length penalty
+            details.push('⚠️ <strong>AES-128-CBC</strong>: Uses CBC mode (+15) and Grover\'s algorithm reduces 128-bit key security to 64-bits (+10)');
+          } else if (cipher === 'aes-256-cbc') {
+            score += 15;
+            details.push('⚠️ <strong>AES-256-CBC</strong>: Uses CBC padding mode. Grover\'s algorithm leaves 128-bits of security (+15)');
+          } else if (cipher === 'aes-128-gcm') {
+            score += 10 - 5; // Key length penalty - GCM bonus
+            details.push('✅ <strong>AES-128-GCM</strong>: Secure AEAD mode (-5), but Grover\'s algorithm reduces key strength to 64-bits (+10)');
+          } else if (cipher === 'aes-256-gcm') {
+            score -= 5;
+            details.push('✅ <strong>AES-256-GCM</strong>: Excellent GCM AEAD mode (-5) and quantum-safe symmetric size');
+          } else if (cipher === 'chacha20') {
+            score -= 10;
+            details.push('✅ <strong>ChaCha20-Poly1305</strong>: Modern high-speed AEAD stream cipher (-10)');
+          }
+
+          // 4. Hybrid check
+          if (pqcHybrid) {
+            score -= 30;
+            details.push('🛡️ <strong>PQC Hybrid Exchange</strong>: Active post-quantum hybrid algorithm negates quantum key capture threats (-30)');
+          }
+
+          // Capping
+          score = Math.max(0, Math.min(100, score));
+
+          // Render values
+          var scoreValEl = document.getElementById('sandbox-score-val');
+          var badgeEl = document.getElementById('sandbox-badge');
+          var descEl = document.getElementById('sandbox-desc');
+
+          if (scoreValEl) {
+            scoreValEl.textContent = score;
+            if (score >= 76) {
+              scoreValEl.style.color = 'var(--red)';
+            } else if (score >= 51) {
+              scoreValEl.style.color = 'var(--orange)';
+            } else if (score >= 26) {
+              scoreValEl.style.color = 'var(--yellow)';
+            } else {
+              scoreValEl.style.color = 'var(--green)';
+            }
+          }
+
+          if (badgeEl) {
+            if (score >= 76) {
+              badgeEl.textContent = 'CRITICAL QUANTUM RISK';
+              badgeEl.className = 'badge b-red';
+            } else if (score >= 51) {
+              badgeEl.textContent = 'HIGH QUANTUM RISK';
+              badgeEl.className = 'badge b-orange';
+            } else if (score >= 26) {
+              badgeEl.textContent = 'MODERATE POSTURE';
+              badgeEl.className = 'badge b-yellow';
+            } else {
+              badgeEl.textContent = 'QUANTUM SAFE / LOW RISK';
+              badgeEl.className = 'badge b-green';
+            }
+          }
+
+          if (descEl) {
+            descEl.innerHTML = '<div style="margin-bottom:8px; font-weight:600; font-size:11px; text-transform:uppercase; color:var(--text3);">Algorithm Breakdown</div>' +
+              details.map(function(d) { return '<div style="margin-bottom:6px; font-size:11px; line-height:1.4;">' + d + '</div>'; }).join('');
+          }
+        }
+
+        // Initialize sandbox on first load
+        setTimeout(updateSandboxRisk, 500);
+      </script>
     </div>
 
     <!-- ══════════ VULNERABILITIES ══════════ -->
@@ -2213,33 +2421,64 @@ async function aiPageAsk(question) {
 }
 
 function buildAIContext() {
-  if(!STATE.scanDone) return 'No scan has been performed yet.';
-  var lines = ['Scanned assets ('+STATE.scanResults.length+' total):'];
-  STATE.scanResults.forEach(function(s,i){
-    var r = STATE.riskData ? STATE.riskData[i] : null;
-    var score = r ? r.score : '?';
-    var level = r ? r.level : '?';
-    var vulnCount = (s._vulns||[]).length;
-    lines.push('  • '+s.host+' | '+s.tls+' | '+s.certAlgo+'-'+s.keySize+' | Risk: '+s.quantumRisk+' ('+score+'/100) | SSL: '+(s.sslGrade||'?')+' | CVEs: '+vulnCount+' | Asset type: '+(STATE.assetCategory||'website'));
-  });
-  if(STATE.riskData) {
-    var avg = Math.round(STATE.riskData.reduce(function(a,b){return a+b.score;},0)/STATE.riskData.length);
-    lines.push('Overall risk score: '+avg+'/100');
-    var crit = STATE.riskData.filter(function(r){return r.score>=76;}).length;
-    lines.push('Critical assets: '+crit);
+  if(!STATE.scanDone && !STATE.discoveredSubdomains) return 'No scan or subdomain discovery has been performed yet.';
+  var lines = [];
+  if(STATE.scanDone && STATE.scanResults) {
+    lines.push('Scanned assets ('+STATE.scanResults.length+' total):');
+    STATE.scanResults.forEach(function(s,i){
+      var r = STATE.riskData ? STATE.riskData[i] : null;
+      var score = r ? r.score : '?';
+      var level = r ? r.level : '?';
+      var vulnCount = (s._vulns||[]).length;
+      lines.push('  • '+s.host+' | '+s.tls+' | '+s.certAlgo+'-'+s.keySize+' | Risk: '+s.quantumRisk+' ('+score+'/100) | SSL: '+(s.sslGrade||'?')+' | CVEs: '+vulnCount+' | Asset type: '+(STATE.assetCategory||'website'));
+    });
+    if(STATE.riskData) {
+      var avg = Math.round(STATE.riskData.reduce(function(a,b){return a+b.score;},0)/STATE.riskData.length);
+      lines.push('Overall risk score: '+avg+'/100');
+      var crit = STATE.riskData.filter(function(r){return r.score>=76;}).length;
+      lines.push('Critical assets: '+crit);
+    }
+    lines.push('Active tier: '+STATE.activeTier+' (port '+STATE.activePort+')');
+    lines.push('Asset category: '+STATE.assetCategory);
+    lines.push('Total CVEs found: '+STATE.vulnData.length);
   }
-  lines.push('Active tier: '+STATE.activeTier+' (port '+STATE.activePort+')');
-  lines.push('Asset category: '+STATE.assetCategory);
-  lines.push('Total CVEs found: '+STATE.vulnData.length);
+  if(STATE.discoveredSubdomains) {
+    lines.push('\nDiscovered Subdomains (grouped by domain):');
+    Object.keys(STATE.discoveredSubdomains).forEach(function(domain) {
+      var list = STATE.discoveredSubdomains[domain];
+      lines.push('  Domain: ' + domain + ' (Found ' + list.length + ' subdomains):');
+      list.forEach(function(sub) {
+        var name = typeof sub === 'string' ? sub : (sub.name || 'Unknown');
+        var ip = (sub && sub.ipAddress) || 'Unknown';
+        var grade = (sub && sub.sslGrade) || 'N/A';
+        var qRisk = (sub && sub.quantumRisk) || 'UNKNOWN';
+        var details = (sub && sub.details) || '';
+        lines.push('    - ' + name + ' | IP: ' + ip + ' | SSL Grade: ' + grade + ' | Quantum Risk: ' + qRisk + ' | Details: ' + details);
+      });
+    });
+  }
   return lines.join('\n');
 }
 
 function localAIAnswer(q) {
   q = q.toLowerCase();
-  if(!STATE.scanDone) return 'No scan data available yet. Please run a scan in the Asset Scanner first, then I can answer your questions.';
+  if(!STATE.scanDone && !STATE.discoveredSubdomains) return 'No scan or subdomain discovery data available yet. Please run a scan or discover subdomains first.';
 
   var riskData = STATE.riskData || [];
   var scanRes  = STATE.scanResults || [];
+
+  if(q.includes('subdomain') || q.includes('discover') || q.includes('domain')) {
+    if(!STATE.discoveredSubdomains) return 'No subdomain discovery data available. Please run Phase 07 Subdomain Discovery first.';
+    var totalSubdomains = 0;
+    var details = [];
+    Object.keys(STATE.discoveredSubdomains).forEach(function(domain) {
+      var list = STATE.discoveredSubdomains[domain];
+      totalSubdomains += list.length;
+      var criticals = list.filter(function(s){ return s.quantumRisk === 'CRITICAL'; }).length;
+      details.push(domain + ' (' + list.length + ' subdomains discovered, ' + criticals + ' critical risk)');
+    });
+    return 'Subdomain Discovery Results: Total subdomains discovered: ' + totalSubdomains + '. Breakdowns: ' + details.join(', ') + '. You can ask for domain details or why a domain has a certain risk level.';
+  }
 
   if(q.includes('at-risk') || q.includes('at risk') || q.includes('critical')) {
     var crits = riskData.filter(function(r){return r.score>=76;});
@@ -3379,23 +3618,18 @@ function renderSubdomainSection(subdomains, sourceLabel) {
   section.id = 'subdomain-section';
   section.style.cssText = 'margin-top:18px;';
 
-  // Collect all subdomain strings for copy-all
-  var allSubs = [];
-  Object.keys(subdomains).forEach(function(p){ allSubs = allSubs.concat(subdomains[p]); });
-
-  var srcLabel = 'Subfinder';
-  var srcNote = 'Subfinder — passive subdomain enumeration via multiple sources';
+  var srcNote = 'Subfinder — passive subdomain OSINT mapping with dynamic Post-Quantum Risk assessment';
 
   var html = '<div class="card" style="border-color:rgba(232,184,75,.2);">'
     + '<div class="flex-between mb14">'
     + '<div>'
-    + '<div class="card-title" style="font-size:16px;">🔍 Subdomain Discovery Results '
-    + '<span style="font-size:12px;color:var(--text3);font-weight:400;margin-left:6px;">(' + total + ' unique subdomain' + (total !== 1 ? 's' : '') + ' found)</span></div>'
+    + '<div class="card-title" style="font-size:16px;">🔍 Subdomain Discovery & Risk Assessment '
+    + '<span style="font-size:12px;color:var(--text3);font-weight:400;margin-left:6px;">(' + total + ' unique subdomain' + (total !== 1 ? 's' : '') + ' evaluated)</span></div>'
     + '<div style="font-size:11px;color:var(--text3);margin-top:3px;">Source: ' + srcNote + '</div>'
     + '</div>'
     + '<div style="display:flex;gap:8px;align-items:center;">'
-    + '<button class="btn btn-ghost btn-sm" onclick="copyAllSubdomains()" title="Copy all subdomains to clipboard">📋 Copy All</button>'
-    + '<button class="btn btn-outline btn-sm" onclick="addSubdomainsToScan()" title="Add all discovered subdomains to scan targets">+ Add to Scan</button>'
+    + '<button class="btn btn-ghost btn-sm" onclick="copyAllSubdomains()" title="Copy all subdomain names to clipboard">📋 Copy All</button>'
+    + '<button class="btn btn-outline btn-sm" onclick="addSubdomainsToScan()" title="Add all discovered subdomains to scan targets">+ Add all to Scan</button>'
     + '</div>'
     + '</div>';
 
@@ -3408,26 +3642,64 @@ function renderSubdomainSection(subdomains, sourceLabel) {
       + '<div style="font-size:11px;font-weight:700;color:#e8b84b;letter-spacing:.8px;text-transform:uppercase;">🌐 ' + parent + '</div>'
       + '<span class="badge b-purple" style="font-size:10px;">' + list.length + ' subdomain' + (list.length !== 1 ? 's' : '') + '</span>'
       + '</div>'
-      + '<div style="display:flex;flex-wrap:wrap;gap:6px;">';
+      + '<div style="overflow-x:auto;">'
+      + '<table class="tbl" style="width:100%; border-collapse:collapse; margin-top:8px;">'
+      + '<thead><tr>'
+      + '<th>Subdomain</th>'
+      + '<th>IP Address</th>'
+      + '<th style="text-align:center;">SSL Grade</th>'
+      + '<th style="text-align:center;">Quantum Risk</th>'
+      + '<th>Cryptographic Details</th>'
+      + '<th style="text-align:right;">Actions</th>'
+      + '</tr></thead>'
+      + '<tbody>';
 
-    list.forEach(function(sd) {
+    list.forEach(function(sdObj) {
+      var sdName = typeof sdObj === 'string' ? sdObj : sdObj.name;
+      var ip = (sdObj.ipAddress || sdObj.ip || 'Unknown');
+      var sslGrade = sdObj.sslGrade || 'N/A';
+      var quantumRisk = sdObj.quantumRisk || 'UNKNOWN';
+      var details = sdObj.details || 'Unknown';
+
+      // Determine colors for risk and grade
+      var riskClass = 'b-gray';
+      if (quantumRisk === 'CRITICAL') riskClass = 'b-red';
+      else if (quantumRisk === 'HIGH') riskClass = 'b-purple';
+      else if (quantumRisk === 'MODERATE') riskClass = 'b-orange';
+      else if (quantumRisk === 'LOW') riskClass = 'b-green';
+
+      var gradeClass = 'b-gray';
+      if (sslGrade.startsWith('A')) gradeClass = 'b-green';
+      else if (sslGrade === 'B') gradeClass = 'b-orange';
+      else if (sslGrade === 'C') gradeClass = 'b-orange';
+      else if (sslGrade === 'F') gradeClass = 'b-red';
+
       // Highlight interesting subdomains
-      var isInteresting = /^(mail|smtp|ftp|admin|api|dev|test|staging|uat|vpn|ssh|remote|cpanel|webmail|portal|login|auth|pay|payment|secure|internal|intranet|git|jenkins|jira|kibana|grafana|db|database|redis|mongo|mysql|backup|old|legacy)\./.test(sd);
-      var tagStyle = isInteresting
-        ? 'background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.35);color:#fca5a5;'
-        : '';
+      var isInteresting = /^(mail|smtp|ftp|admin|api|dev|test|staging|uat|vpn|ssh|remote|cpanel|webmail|portal|login|auth|pay|payment|secure|internal|intranet|git|jenkins|jira|kibana|grafana|db|database|redis|mongo|mysql|backup|old|legacy)\./.test(sdName);
+      var nameStyle = isInteresting ? 'color:#fca5a5;font-weight:bold;' : 'color:var(--text);';
       var title = isInteresting ? 'title="⚠ Potentially sensitive subdomain"' : '';
-      html += '<span class="badge b-gray" style="font-family:monospace;font-size:11px;padding:5px 10px;cursor:pointer;' + tagStyle + '" '
-        + title + ' onclick="navigator.clipboard&&navigator.clipboard.writeText(\'' + sd + '\').then(function(){toast(\'Copied: ' + sd + '\',\'green\');})">'
-        + (isInteresting ? '⚠ ' : '') + sd
-        + '</span>';
+
+      html += '<tr>'
+        + '<td style="font-family:monospace;font-size:12px;padding:8px;' + nameStyle + '" ' + title + '>'
+        + (isInteresting ? '⚠ ' : '') + sdName
+        + '</td>'
+        + '<td style="font-family:monospace;font-size:12px;padding:8px;">' + ip + '</td>'
+        + '<td style="text-align:center;padding:8px;"><span class="badge ' + gradeClass + '" style="font-size:11px;">' + sslGrade + '</span></td>'
+        + '<td style="text-align:center;padding:8px;"><span class="badge ' + riskClass + '" style="font-size:11px;">' + quantumRisk + '</span></td>'
+        + '<td style="font-size:12px;padding:8px;color:var(--text3);">' + details + '</td>'
+        + '<td style="text-align:right;padding:8px;">'
+        + '<button class="btn btn-ghost btn-sm" style="padding:2px 6px;font-size:10px;margin-right:4px;" onclick="navigator.clipboard&&navigator.clipboard.writeText(\'' + sdName + '\').then(function(){toast(\'Copied: ' + sdName + '\',\'green\');})">📋 Copy</button>'
+        + '<button class="btn btn-outline btn-sm" style="padding:2px 6px;font-size:10px;" onclick="addSingleSubdomainToScan(\'' + sdName + '\')">+ Add</button>'
+        + '</td>'
+        + '</tr>';
     });
 
-    html += '</div>';
+    html += '</tbody></table></div>';
 
     // Show interesting count if any
-    var interesting = list.filter(function(sd){
-      return /^(mail|smtp|ftp|admin|api|dev|test|staging|uat|vpn|ssh|remote|cpanel|webmail|portal|login|auth|pay|payment|secure|internal|intranet|git|jenkins|jira|kibana|grafana|db|database|redis|mongo|mysql|backup|old|legacy)\./.test(sd);
+    var interesting = list.filter(function(sdObj){
+      var sdName = typeof sdObj === 'string' ? sdObj : sdObj.name;
+      return /^(mail|smtp|ftp|admin|api|dev|test|staging|uat|vpn|ssh|remote|cpanel|webmail|portal|login|auth|pay|payment|secure|internal|intranet|git|jenkins|jira|kibana|grafana|db|database|redis|mongo|mysql|backup|old|legacy)\./.test(sdName);
     });
     if (interesting.length > 0) {
       html += '<div style="margin-top:8px;font-size:11px;color:#fca5a5;">⚠ ' + interesting.length + ' potentially sensitive subdomain' + (interesting.length !== 1 ? 's' : '') + ' detected (admin, API, dev, payment, etc.)</div>';
@@ -3439,6 +3711,15 @@ function renderSubdomainSection(subdomains, sourceLabel) {
   html += '</div>';
   section.innerHTML = html;
   container.parentNode.insertBefore(section, container.nextSibling);
+}
+
+function addSingleSubdomainToScan(sdName) {
+  var inp = document.getElementById('scan-target');
+  var existing = inp.value.trim();
+  var newVal = existing ? existing + ', ' + sdName : sdName;
+  inp.value = newVal;
+  toast('✓ Added ' + sdName + ' to scan targets', 'green');
+  inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 // ── Standalone subdomain discovery (no full scan needed)
@@ -3462,7 +3743,7 @@ async function discoverSubdomainsOnly() {
   var allDiscovered = {};
   for (var i = 0; i < domains.length; i++) {
     var domain = domains[i];
-    addLog('[SUBFINDER] Enumerating: ' + domain, 'log-info');
+    addLog('[SUBFINDER] Enumerating & assessing: ' + domain, 'log-info');
     try {
       var resp = await fetch(SCANNER_BACKEND_URL + '/api/subfinder-subdomains?hostname=' + encodeURIComponent(domain));
       var data = await resp.json();
@@ -3478,10 +3759,16 @@ async function discoverSubdomainsOnly() {
   }
 
   // Sort each domain's subdomain list
-  Object.keys(allDiscovered).forEach(function(d){ allDiscovered[d].sort(); });
+  Object.keys(allDiscovered).forEach(function(d){
+    allDiscovered[d].sort(function(a, b){
+      var nameA = typeof a === 'string' ? a : (a.name || '');
+      var nameB = typeof b === 'string' ? b : (b.name || '');
+      return nameA.localeCompare(nameB);
+    });
+  });
 
   var total = Object.keys(allDiscovered).reduce(function(n,k){ return n + allDiscovered[k].length; }, 0);
-  addLog('[DONE] Discovery complete. ' + total + ' subdomain(s) found via ' + sourceLabel + '.', 'log-success');
+  addLog('[DONE] Discovery complete. ' + total + ' subdomain(s) found and evaluated via ' + sourceLabel + '.', 'log-success');
 
   STATE.discoveredSubdomains = allDiscovered;
 
@@ -3504,7 +3791,11 @@ async function discoverSubdomainsOnly() {
 function copyAllSubdomains() {
   if (!STATE.discoveredSubdomains) return;
   var all = [];
-  Object.keys(STATE.discoveredSubdomains).forEach(function(p){ all = all.concat(STATE.discoveredSubdomains[p]); });
+  Object.keys(STATE.discoveredSubdomains).forEach(function(p){
+    var list = STATE.discoveredSubdomains[p];
+    var names = list.map(function(s){ return typeof s === 'string' ? s : s.name; });
+    all = all.concat(names);
+  });
   if (!all.length) return;
   var text = all.join('\n');
   if (navigator.clipboard) {
@@ -3520,7 +3811,11 @@ function copyAllSubdomains() {
 function addSubdomainsToScan() {
   if (!STATE.discoveredSubdomains) return;
   var all = [];
-  Object.keys(STATE.discoveredSubdomains).forEach(function(p){ all = all.concat(STATE.discoveredSubdomains[p]); });
+  Object.keys(STATE.discoveredSubdomains).forEach(function(p){
+    var list = STATE.discoveredSubdomains[p];
+    var names = list.map(function(s){ return typeof s === 'string' ? s : s.name; });
+    all = all.concat(names);
+  });
   if (!all.length) return;
   var inp = document.getElementById('scan-target');
   var existing = inp.value.trim();
@@ -4480,22 +4775,142 @@ function exportCBOM(){
   toast('CBOM exported!','green');
 }
 
-function downloadReport(){
+async function downloadReport(){
   if(!STATE.riskDone){toast('Complete scan pipeline first!','orange');return;}
-  var report = {
-    title:'Q-Sentinel Executive Security Report',
-    generatedAt:new Date().toISOString(),
-    team:'VectorX — PNB Hackathon 2026',
-    assets:STATE.scanResults.length,
-    cbom:STATE.cbomData,
-    riskAnalysis:STATE.riskData,
-    standards:['NIST SP 800-52','NIST PQC','NIST SP 800-57']
-  };
-  downloadJSON(JSON.stringify(report,null,2),'qsentinel-executive-report.json');
-  toast('Executive report exported!','green');
+  toast('Generating and downloading PDF report...','green');
+  try {
+    var resp = await fetch(SCANNER_BACKEND_URL + '/api/export-pdf', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': SCANNER_API_KEY },
+      body: JSON.stringify({
+        title: 'Q-Sentinel Executive Security Report',
+        scanResults: STATE.scanResults,
+        stats: {
+          assets: STATE.scanResults.length,
+          rating: document.getElementById('exec-rating').textContent,
+          posture: document.getElementById('exec-posture').textContent,
+          cbom: document.getElementById('exec-cbom').textContent
+        }
+      })
+    });
+    if(!resp.ok) throw new Error('PDF Generation failed');
+    var blob = await resp.blob();
+    var url = window.URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'qsentinel-executive-report.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+    toast('PDF report downloaded successfully!','green');
+  } catch(e) {
+    toast('Error: ' + e.message, 'red');
+  }
 }
 
-function generateOnDemandReport(){toast('Generating report... (In production: PDF with all scan data)','green');}
+async function saveReportSchedule() {
+  var reportType = document.getElementById('sched-report-type').value;
+  var frequency = document.getElementById('sched-frequency').value;
+  var assets = document.getElementById('sched-assets').value;
+  var date = document.getElementById('sched-date').value;
+  var time = document.getElementById('sched-time').value;
+  var email = document.getElementById('sched-email').value;
+  var savePath = document.getElementById('sched-save-path').value;
+  var enabled = !document.getElementById('sched-enable-toggle').classList.contains('off');
+  
+  var sections = [];
+  if(document.getElementById('sched-sec-cbom').checked) sections.push('CBOM');
+  if(document.getElementById('sched-sec-risk').checked) sections.push('Risk Analysis');
+  if(document.getElementById('sched-sec-pqc').checked) sections.push('PQC Posture');
+  if(document.getElementById('sched-sec-rating').checked) sections.push('Cyber Rating');
+
+  if(!email) { toast('Please enter a delivery email address', 'red'); return; }
+
+  toast('Saving reporting schedule...', 'green');
+  try {
+    var resp = await fetch(SCANNER_BACKEND_URL + '/api/schedule-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': SCANNER_API_KEY },
+      body: JSON.stringify({
+        report_type: reportType,
+        frequency: frequency,
+        assets: assets,
+        sections: sections,
+        date: date,
+        time: time,
+        email: email,
+        save_path: savePath,
+        enabled: enabled
+      })
+    });
+    var resData = await resp.json();
+    if(resp.ok && resData.success) {
+      toast('Schedule saved successfully!', 'green');
+    } else {
+      toast('Error saving schedule: ' + (resData.error || 'Unknown error'), 'red');
+    }
+  } catch(e) {
+    toast('Error connecting to backend: ' + e.message, 'red');
+  }
+}
+
+async function generateOnDemandReport() {
+  var reportType = document.getElementById('demand-report-type').value;
+  var format = document.getElementById('demand-format').value;
+  var charts = document.getElementById('demand-charts').checked;
+  var password = document.getElementById('demand-password').checked;
+  
+  var emailEnabled = !document.getElementById('demand-email-toggle').classList.contains('off');
+  var email = document.getElementById('demand-email').value.trim();
+  
+  var saveEnabled = !document.getElementById('demand-save-toggle').classList.contains('off');
+  var savePath = document.getElementById('demand-save-path').value.trim();
+  
+  if(emailEnabled && !email) { toast('Please enter an email address for delivery', 'red'); return; }
+  if(saveEnabled && !savePath) { toast('Please enter a save location path', 'red'); return; }
+
+  toast('Generating on-demand report...', 'green');
+  try {
+    var resp = await fetch(SCANNER_BACKEND_URL + '/api/generate-demand-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': SCANNER_API_KEY },
+      body: JSON.stringify({
+        report_type: reportType,
+        format: format,
+        include_charts: charts,
+        password_protect: password,
+        email_enabled: emailEnabled,
+        email: email,
+        save_enabled: saveEnabled,
+        save_path: savePath
+      })
+    });
+    if(!resp.ok) {
+      var errData = await resp.json();
+      throw new Error(errData.error || 'Failed to generate report');
+    }
+    
+    var blob = await resp.blob();
+    var url = window.URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    
+    var ext = format.toLowerCase();
+    if(ext === 'excel') ext = 'xlsx';
+    a.download = 'qsentinel-ondemand-report.' + ext;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+    
+    var msg = 'Report downloaded successfully!';
+    if(emailEnabled) msg += ' Also emailed to ' + email + '.';
+    toast(msg, 'green');
+  } catch(e) {
+    toast('Error: ' + e.message, 'red');
+  }
+}
 
 function downloadJSON(data, filename){
   var blob = new Blob([data],{type:'application/json'});

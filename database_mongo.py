@@ -29,6 +29,7 @@ COLLECTION_VULNERABILITIES = "vulnerabilities"
 COLLECTION_COMPLIANCE_STATUS = "compliance_status"
 COLLECTION_USERS = "users"
 COLLECTION_AUDIT_LOGS = "audit_logs"
+COLLECTION_SCHEDULES = "schedules"
 
 # Database connection
 client = None
@@ -74,6 +75,7 @@ def init_database():
     
     db[COLLECTION_USERS].create_index("employeeId", unique=True)
     db[COLLECTION_AUDIT_LOGS].create_index("timestamp")
+    db[COLLECTION_SCHEDULES].create_index("next_run")
 
     print("[DB] MongoDB collections and indexes initialized")
 
@@ -832,6 +834,36 @@ def log_audit_event(employee_id, event_type, ip_address, details):
     }
     db[COLLECTION_AUDIT_LOGS].insert_one(log_doc)
     print(f"[AUDIT LOG] {event_type} for user {employee_id or 'GUEST'}: {details}")
+
+
+# ┌────────────────────────────────────────────────────────┐
+# │  Schedules Helper Functions                            │
+# └────────────────────────────────────────────────────────┘
+
+def save_schedule(schedule_doc):
+    """Insert or update a reporting schedule."""
+    global db
+    if db is None:
+        init_database()
+    if "_id" in schedule_doc:
+        db[COLLECTION_SCHEDULES].replace_one({"_id": schedule_doc["_id"]}, schedule_doc)
+    else:
+        db[COLLECTION_SCHEDULES].insert_one(schedule_doc)
+
+def get_active_schedules():
+    """Get all enabled schedules."""
+    global db
+    if db is None:
+        init_database()
+    return list(db[COLLECTION_SCHEDULES].find({"enabled": True}))
+
+def delete_schedule(schedule_id):
+    """Delete a schedule by its ID."""
+    global db
+    if db is None:
+        init_database()
+    from bson.objectid import ObjectId
+    db[COLLECTION_SCHEDULES].delete_one({"_id": ObjectId(schedule_id)})
 
 
 # ┌────────────────────────────────────────────────────────┐
