@@ -1622,14 +1622,14 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:3px;backgroun
       <div id="rpt-sched" style="display:none;">
         <div class="flex-between mb14"><div><div class="pg-title" style="margin:0;">Schedule Reporting</div></div><div class="flex-center"><div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);">Enable <div class="toggle" id="sched-enable-toggle" onclick="this.classList.toggle('off')"></div></div><div class="back-btn" onclick="rptBack()">← Back</div></div></div>
         <div class="card"><div class="sched-grid">
-          <div><div class="form-field"><label>Report Type</label><select id="sched-report-type"><option>Executive Summary Report</option><option>CBOM Report</option><option>Quantum Risk Analysis</option><option>Full Security Report</option></select></div><div class="form-field"><label>Frequency</label><select id="sched-frequency"><option>Weekly</option><option>Daily</option><option>Monthly</option></select></div><div class="form-field"><label>Select Assets</label><select id="sched-assets"><option>All Assets</option><option>High Risk Only</option><option>Web Apps</option></select></div><div class="form-field"><label>Include Sections</label><div class="chk-row"><label class="chk"><input type="checkbox" id="sched-sec-cbom" checked/> CBOM</label><label class="chk"><input type="checkbox" id="sched-sec-risk" checked/> Risk Analysis</label><label class="chk"><input type="checkbox" id="sched-sec-pqc" checked/> PQC Posture</label><label class="chk"><input type="checkbox" id="sched-sec-rating" checked/> Cyber Rating</label></div></div></div>
+          <div><div class="form-field"><label>Report Type</label><div style="font-family:var(--font-mono, monospace); color:var(--pnb-gold); padding:10px; background:var(--surface2); border:1px solid var(--border); border-radius:6px; font-weight:600;">Quantum Risk Analysis</div><input type="hidden" id="sched-report-type" value="Quantum Risk Analysis"/></div><div class="form-field"><label>Frequency</label><select id="sched-frequency"><option>Weekly</option><option>Daily</option><option>Monthly</option></select></div><div class="form-field"><label>Select Assets</label><select id="sched-assets"><option>All Assets</option><option>High Risk Only</option><option>Web Apps</option></select></div><div class="form-field"><label>Include Sections</label><div class="chk-row"><label class="chk"><input type="checkbox" id="sched-sec-cbom" checked/> CBOM</label><label class="chk"><input type="checkbox" id="sched-sec-risk" checked/> Risk Analysis</label><label class="chk"><input type="checkbox" id="sched-sec-pqc" checked/> PQC Posture</label><label class="chk"><input type="checkbox" id="sched-sec-rating" checked/> Cyber Rating</label></div></div></div>
           <div><div class="form-section-title">📅 Schedule Details</div><div class="form-field"><label>Date</label><input type="date" id="sched-date" value="2026-04-25"/></div><div class="form-field"><label>Time</label><select id="sched-time"><option>09:00 AM (IST)</option><option>12:00 PM (IST)</option></select></div><div style="font-size:11px;color:var(--text3);margin-bottom:12px;">Time Zone: Asia/Kolkata</div><div class="form-section-title">📧 Delivery</div><div class="form-field"><label>Email</label><input type="email" id="sched-email" value="security@pnb.bank.in"/></div><div class="form-field"><label>Save Path</label><input type="text" id="sched-save-path" value="/Reports/Quarterly/"/></div><button class="btn btn-primary" style="width:100%;padding:11px;" onclick="saveReportSchedule()">Schedule Report →</button></div>
         </div></div>
       </div>
       <div id="rpt-demand" style="display:none;">
         <div class="flex-between mb14"><div><div class="pg-title" style="margin:0;">On-Demand Reporting</div></div><div class="back-btn" onclick="rptBack()">← Back</div></div>
         <div class="card"><div class="sched-grid">
-          <div><div class="form-field"><label>Report Type</label><select id="demand-report-type"><option>Executive Reporting</option><option>CBOM Report</option><option>Quantum Risk Analysis</option><option>Cyber Rating (Tiers 1–4)</option></select></div><div style="background:rgba(155,28,46,.04);border:1px solid rgba(155,28,46,.12);border-radius:8px;padding:12px;"><div class="form-section-title">⚙ Advanced Settings</div><div style="display:flex;gap:10px;flex-wrap:wrap;"><div class="form-field" style="flex:1;min-width:110px;"><label>Format</label><select id="demand-format"><option>PDF</option><option>Excel</option><option>JSON</option></select></div><div style="padding-top:20px;"><label class="chk mb6"><input type="checkbox" id="demand-charts" checked/> Include Charts</label><br/><label class="chk"><input type="checkbox" id="demand-password"/> Password Protect</label></div></div></div></div>
+          <div><div class="form-field"><label>Report Type</label><div style="font-family:var(--font-mono, monospace); color:var(--pnb-gold); padding:10px; background:var(--surface2); border:1px solid var(--border); border-radius:6px; font-weight:600;">Quantum Risk Analysis</div><input type="hidden" id="demand-report-type" value="Quantum Risk Analysis"/></div><div style="background:rgba(155,28,46,.04);border:1px solid rgba(155,28,46,.12);border-radius:8px;padding:12px;"><div class="form-section-title">⚙ Advanced Settings</div><div style="display:flex;gap:10px;flex-wrap:wrap;"><div class="form-field" style="flex:1;min-width:110px;"><label>Format</label><select id="demand-format"><option>PDF</option><option>Excel</option><option>JSON</option></select></div><div style="padding-top:20px;"><label class="chk mb6"><input type="checkbox" id="demand-charts" checked/> Include Charts</label><br/><label class="chk"><input type="checkbox" id="demand-password"/> Password Protect</label></div></div></div></div>
           <div><div class="form-section-title">📧 Delivery</div><div class="toggle-row"><label class="chk"><input type="checkbox" id="demand-email-chk" checked/> Email</label><div class="toggle" id="demand-email-toggle" onclick="this.classList.toggle('off')"></div></div><div class="form-field"><input type="email" id="demand-email" placeholder="Enter email..."/></div><div class="toggle-row"><label class="chk"><input type="checkbox" id="demand-save-chk" checked/> Save to Location</label><div class="toggle" id="demand-save-toggle" onclick="this.classList.toggle('off')"></div></div><div class="form-field"><input type="text" id="demand-save-path" value="/Reports/OnDemand/"/></div><label class="chk mb10"><input type="checkbox" id="demand-slack-chk"/> Slack Notification</label><br/><button class="btn btn-primary" style="width:100%;padding:11px;margin-top:10px;" onclick="generateOnDemandReport()">📄 Generate Report</button></div>
         </div></div>
       </div>
@@ -1656,6 +1656,16 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;height:3px;backgroun
                 &nbsp;&nbsp;Cipher Mode Vulnerability (Grover's) -<br>
                 &nbsp;&nbsp;Mitigation Deductions, 100<br>
                 )
+              </div>
+            </div>
+
+            <div class="card-title" style="margin-top: 15px; display:flex; align-items:center; gap:8px;">★ Enterprise Cyber Rating Formula</div>
+            <div class="card-sub">Weighted combination of direct scanner risk evaluation and NIST PQC transition compliance status.</div>
+            <div style="background:var(--bg2); border:1px solid var(--border2); border-radius:9px; padding:15px; margin-bottom:15px;">
+              <div style="font-family:'Courier New', monospace; font-size:13px; color:var(--pnb-gold); line-height:1.8;">
+                <strong style="color:var(--text);">Cyber Rating</strong> = <br>
+                &nbsp;&nbsp;(1 - (Average Risk Score / 100)) × 700 [70% Risk Weight] +<br>
+                &nbsp;&nbsp;(NIST Compliance Score / 8) × 300 [30% Compliance Weight]
               </div>
             </div>
 
@@ -3960,12 +3970,21 @@ function generateCBOM(){
     var rBadge = c.quantumRisk==='CRITICAL'?'b-red':c.quantumRisk==='HIGH'?'b-orange':c.quantumRisk==='MODERATE'?'b-yellow':'b-green';
     entriesEl.innerHTML += '<div class="cbom-entry"><div class="cbom-entry-hdr"><div><span class="cbom-entry-title">'+c.system+'</span><span style="margin-left:8px;font-size:11px;color:var(--text3);">ID: '+c.id+'</span></div><span class="badge '+rBadge+'">'+c.quantumRisk+'</span></div>'
       +'<div class="cbom-fields">'
-      +'<div class="cbom-field"><div class="cf-k">Protocol / Version</div><div class="cf-v">'+c.protocolVersion+'</div></div>'
-      +'<div class="cbom-field"><div class="cf-k">Cipher Suite</div><div class="cf-v" style="font-size:9px;">'+c.cipherSuite.substring(0,26)+'...</div></div>'
-      +'<div class="cbom-field"><div class="cf-k">Certificate Algo</div><div class="cf-v">'+c.sigAlgo+' ('+c.keySize+'-bit)</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">System (Domain)</div><div class="cf-v">'+c.system+'</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">ID</div><div class="cf-v">'+c.id+'</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">Protocol</div><div class="cf-v">'+(c.protocol || 'TCP')+'</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">Protocol Version</div><div class="cf-v">'+c.protocolVersion+'</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">Certificate Name</div><div class="cf-v">'+c.certName+'</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">Certificate Algo</div><div class="cf-v">'+c.sigAlgo+'</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">Key Size</div><div class="cf-v">'+c.keySize+' bits</div></div>'
       +'<div class="cbom-field"><div class="cf-k">Issuer</div><div class="cf-v">'+c.certIssuer+'</div></div>'
       +'<div class="cbom-field"><div class="cf-k">Expiry</div><div class="cf-v">'+c.certExpiry+'</div></div>'
-      +'<div class="cbom-field"><div class="cf-k">Key Name / State</div><div class="cf-v">'+c.keyName+' / '+c.keyState+'</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">Key Name</div><div class="cf-v">'+c.keyName+'</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">Key State</div><div class="cf-v">'+c.keyState+'</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">PQC Detected</div><div class="cf-v">'+(c.pqcDetected ? 'Yes' : 'No')+'</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">Quantum Risk</div><div class="cf-v">'+c.quantumRisk+'</div></div>'
+      +'<div class="cbom-field"><div class="cf-k">Compliance Standard</div><div class="cf-v">NIST SP 800-52</div></div>'
+      +'<div class="cbom-field" style="grid-column: span 3;"><div class="cf-k">Cipher Suite</div><div class="cf-v" style="font-size:10px; word-break: break-all; white-space: normal; line-height: 1.3;">'+c.cipherSuite+'</div></div>'
       +'</div></div>';
   });
 
@@ -4249,7 +4268,8 @@ function _doRiskAnalysis(){
   }
 
   // ── Cyber rating
-  var enterpriseScore = Math.round((1-(overallScore/100))*1000);
+  var nistScore = calculateNistScore(STATE.scanResults);
+  var enterpriseScore = Math.round(((1-(overallScore/100))*700) + ((nistScore/8)*300));
   var ratingEl = document.getElementById('rating-score'); if(ratingEl) ratingEl.textContent=enterpriseScore+'/1000';
   var ratingLabel = enterpriseScore>700?'✔ ELITE-PQC — STRONG SECURITY POSTURE':enterpriseScore>400?'⚡ STANDARD — IMPROVEMENT NEEDED':'⛔ LEGACY — CRITICAL REMEDIATION REQUIRED';
   var ratingPillClass = enterpriseScore>700?'rpill':enterpriseScore>400?'rpill" style="background:rgba(245,158,11,.15);color:var(--orange);border-color:rgba(245,158,11,.3);"':'rpill" style="background:rgba(239,68,68,.15);color:var(--red);border-color:rgba(239,68,68,.3);"';
@@ -4549,7 +4569,8 @@ function updateDashboardFromRisk(){
 
   // Exec report
   document.getElementById('exec-assets').textContent = rd.length;
-  var es = Math.round((1-(overallScore/100))*1000);
+  var nistScore = calculateNistScore(STATE.scanResults);
+  var es = Math.round(((1-(overallScore/100))*700) + ((nistScore/8)*300));
   document.getElementById('exec-rating').textContent = es+'/1000';
   document.getElementById('exec-rating-lbl').textContent = es>700?'Elite-PQC':es>400?'Standard':'Legacy';
   document.getElementById('exec-posture').textContent = Math.round((safe/rd.length)*100)+'%';
@@ -5327,6 +5348,34 @@ function runIocSearch(q) {
   resultsEl.innerHTML = html;
 }
 
+// Helper to calculate compliance score out of 8
+function calculateNistScore(scanResults) {
+  if(!scanResults || !scanResults.length) return 0;
+  var allTls13    = scanResults.every(function(s){ return s.tls === 'TLS 1.3'; });
+  var anyTls13    = scanResults.some(function(s){ return s.tls === 'TLS 1.3'; });
+  var allAead     = scanResults.every(function(s){ return s.cipher && (s.cipher.includes('GCM') || s.cipher.includes('CHACHA')); });
+  var anyAead     = scanResults.some(function(s){ return s.cipher && (s.cipher.includes('GCM') || s.cipher.includes('CHACHA')); });
+  var allPfs      = scanResults.every(function(s){ return s.cipher && (s.cipher.includes('ECDHE') || s.cipher.includes('DHE') || s.tls === 'TLS 1.3'); });
+  var allKeyOk    = scanResults.every(function(s){ return (s.keySize || 0) >= 3072; });
+  var anyKeyOk    = scanResults.some(function(s){ return (s.keySize || 0) >= 3072; });
+  var anyKyber    = scanResults.some(function(s){ return s.pqcDetected || (s.keyExchange && s.keyExchange.toLowerCase().includes('kyber')); });
+  var anyDilith   = scanResults.some(function(s){ return s.certAlgo === 'CRYSTALS-Dilithium' || s.certAlgo === 'ML-DSA'; });
+  var allCertOk   = scanResults.every(function(s){ return (s.daysLeft == null || s.daysLeft > 0); });
+  var noCbc       = scanResults.every(function(s){ return !s.cipher || (!s.cipher.includes('CBC') && !s.cipher.includes('RC4') && !s.cipher.includes('3DES')); });
+  var someCbc     = scanResults.some(function(s){ return s.cipher && (s.cipher.includes('CBC') || s.cipher.includes('RC4')); });
+
+  var score = 0;
+  score += allTls13 ? 1 : (anyTls13 ? 0.5 : 0);
+  score += allAead ? 1 : (anyAead ? 0.5 : 0);
+  score += allPfs ? 1 : 0;
+  score += allKeyOk ? 1 : (anyKeyOk ? 0.5 : 0);
+  score += anyKyber ? 1 : 0;
+  score += anyDilith ? 1 : 0;
+  score += allCertOk ? 1 : 0;
+  score += noCbc ? 1 : (!someCbc ? 0.5 : 0);
+  return score;
+}
+
 // ── Update the NIST PQC Compliance Checklist from real scan data
 function updateNistChecklist(scanResults, riskData) {
   if(!scanResults || !scanResults.length) return;
@@ -5355,19 +5404,18 @@ function updateNistChecklist(scanResults, riskData) {
     var badge = row.querySelector('.nist-badge');
     badge.className = 'nist-badge ' + cls;
     badge.textContent = txt;
-    return pass ? 1 : partial ? 0.5 : 0;
   };
 
-  var score = 0;
-  score += setRow('nist-tls13',    allTls13, anyTls13, 'TLS 1.3');
-  score += setRow('nist-aead',     allAead,  anyAead,  'AEAD');
-  score += setRow('nist-ecdhe',    allPfs,   allPfs,   'PFS');
-  score += setRow('nist-keysize',  allKeyOk, anyKeyOk, 'Key');
-  score += setRow('nist-kyber',    anyKyber, false,    'Kyber');
-  score += setRow('nist-dilithium',anyDilith,false,    'Dili');
-  score += setRow('nist-certvalid',allCertOk,allCertOk,'Cert');
-  score += setRow('nist-nocbc',    noCbc,    !someCbc, 'NoCBC');
+  setRow('nist-tls13',    allTls13, anyTls13, 'TLS 1.3');
+  setRow('nist-aead',     allAead,  anyAead,  'AEAD');
+  setRow('nist-ecdhe',    allPfs,   allPfs,   'PFS');
+  setRow('nist-keysize',  allKeyOk, anyKeyOk, 'Key');
+  setRow('nist-kyber',    anyKyber, false,    'Kyber');
+  setRow('nist-dilithium',anyDilith,false,    'Dili');
+  setRow('nist-certvalid',allCertOk,allCertOk,'Cert');
+  setRow('nist-nocbc',    noCbc,    !someCbc, 'NoCBC');
 
+  var score = calculateNistScore(scanResults);
   var pct = Math.round((score / 8) * 100);
   var bar = document.getElementById('nist-score-bar');
   var lbl = document.getElementById('nist-score-pct');

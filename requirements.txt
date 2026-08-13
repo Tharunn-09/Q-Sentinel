@@ -8,6 +8,8 @@ pyotp>=2.9.0
 requests>=2.31.0
 urllib3>=2.2.0
 python-dotenv>=1.0.0
+reportlab>=4.0.0
+openpyxl>=3.1.0
 
 # Optional tools (must be installed separately):
 # Subfinder (subdomain enumeration) - https://github.com/projectdiscovery/subfinder

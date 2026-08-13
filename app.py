@@ -79,7 +79,9 @@ def check_api_key():
 @app.route("/", methods=["GET"])
 def index():
     try:
-        with open("Q-Sentinel_PNB.html", "r", encoding="utf-8") as f:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        html_path = os.path.join(base_dir, "Q-Sentinel_PNB.html")
+        with open(html_path, "r", encoding="utf-8") as f:
             return f.read()
     except Exception as e:
         return f"Error loading frontend: {str(e)}", 500
@@ -87,17 +89,20 @@ def index():
 @app.route("/pnb_logo.jpg", methods=["GET"])
 def serve_pnb_logo():
     from flask import send_from_directory
-    return send_from_directory(".", "pnb_logo.jpg")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    return send_from_directory(base_dir, "pnb_logo.jpg")
 
 @app.route("/logo.png", methods=["GET"])
 def serve_logo():
     from flask import send_from_directory
-    return send_from_directory(".", "logo.png")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    return send_from_directory(base_dir, "logo.png")
 
 @app.route("/uco_logo.png", methods=["GET"])
 def serve_uco_logo():
     from flask import send_from_directory
-    return send_from_directory(".", "uco_logo.png")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    return send_from_directory(base_dir, "uco_logo.png")
 
 @app.route("/health", methods=["GET"])
 def health():
@@ -1241,7 +1246,39 @@ def compute_scan_stats(scan_results):
             low_count += 1
         scores.append(score)
     avg_score = sum(scores) / len(scores) if scores else 0
-    ent_score = round((1 - (avg_score / 100)) * 1000)
+
+    # Calculate NIST PQC compliance score on the backend to match the frontend rating
+    nist_score = 0
+    if total > 0:
+        all_tls13 = all(r.get('tls') == 'TLS 1.3' for r in scan_results)
+        any_tls13 = any(r.get('tls') == 'TLS 1.3' for r in scan_results)
+        nist_score += 1.0 if all_tls13 else (0.5 if any_tls13 else 0.0)
+
+        all_aead = all(r.get('cipher') and any(x in r.get('cipher').upper() for x in ['GCM', 'CHACHA']) for r in scan_results)
+        any_aead = any(r.get('cipher') and any(x in r.get('cipher').upper() for x in ['GCM', 'CHACHA']) for r in scan_results)
+        nist_score += 1.0 if all_aead else (0.5 if any_aead else 0.0)
+
+        all_pfs = all(r.get('cipher') and any(x in r.get('cipher').upper() for x in ['ECDHE', 'DHE']) or r.get('tls') == 'TLS 1.3' for r in scan_results)
+        nist_score += 1.0 if all_pfs else 0.0
+
+        all_key_ok = all((r.get('keySize') or r.get('key_size') or 0) >= 3072 for r in scan_results)
+        any_key_ok = any((r.get('keySize') or r.get('key_size') or 0) >= 3072 for r in scan_results)
+        nist_score += 1.0 if all_key_ok else (0.5 if any_key_ok else 0.0)
+
+        any_kyber = any(r.get('pqcDetected') or r.get('pqc_detected') or (r.get('keyExchange') and 'kyber' in r.get('keyExchange').lower()) or (r.get('key_exchange') and 'kyber' in r.get('key_exchange').lower()) for r in scan_results)
+        nist_score += 1.0 if any_kyber else 0.0
+
+        any_dilith = any(r.get('certAlgo') in ['CRYSTALS-Dilithium', 'ML-DSA'] or r.get('cert_algo') in ['CRYSTALS-Dilithium', 'ML-DSA'] for r in scan_results)
+        nist_score += 1.0 if any_dilith else 0.0
+
+        all_cert_ok = all(r.get('daysLeft') is None or r.get('days_left') is None or (r.get('daysLeft') or r.get('days_left') or 0) > 0 for r in scan_results)
+        nist_score += 1.0 if all_cert_ok else 0.0
+
+        no_cbc = all(not r.get('cipher') or not any(x in r.get('cipher').upper() for x in ['CBC', 'RC4', '3DES']) for r in scan_results)
+        some_cbc = any(r.get('cipher') and any(x in r.get('cipher').upper() for x in ['CBC', 'RC4']) for r in scan_results)
+        nist_score += 1.0 if no_cbc else (0.5 if not some_cbc else 0.0)
+
+    ent_score = round(((1 - (avg_score / 100)) * 700) + ((nist_score / 8) * 300))
     posture_pct = round((low_count / total) * 100)
     return {
         "assets": total,
@@ -1532,15 +1569,20 @@ def run_scheduler_loop():
                         
                         save_path = sched.get('save_path')
                         if save_path:
-                            clean_dir = save_path.strip().lstrip('/\\')
-                            if not os.path.exists(clean_dir):
-                                os.makedirs(clean_dir, exist_ok=True)
-                            
-                            filename = f"report_{sched.get('report_type').replace(' ', '_')}_{now.strftime('%Y%m%d_%H%M%S')}.pdf"
-                            full_file_path = os.path.join(clean_dir, filename)
-                            with open(full_file_path, "wb") as f:
-                                f.write(pdf_bytes)
-                            print(f"[SCHEDULER] Saved report locally to {full_file_path}")
+                            try:
+                                clean_dir = save_path.strip().lstrip('/\\')
+                                if os.environ.get("VERCEL"):
+                                    clean_dir = os.path.join("/tmp", clean_dir)
+                                if not os.path.exists(clean_dir):
+                                    os.makedirs(clean_dir, exist_ok=True)
+                                
+                                filename = f"report_{sched.get('report_type').replace(' ', '_')}_{now.strftime('%Y%m%d_%H%M%S')}.pdf"
+                                full_file_path = os.path.join(clean_dir, filename)
+                                with open(full_file_path, "wb") as f:
+                                    f.write(pdf_bytes)
+                                print(f"[SCHEDULER] Saved report locally to {full_file_path}")
+                            except Exception as file_err:
+                                print(f"[SCHEDULER] Error saving report locally on serverless host: {file_err}")
                             
                         freq = sched.get('frequency', 'Weekly').lower()
                         if freq == 'daily':
@@ -1713,13 +1755,18 @@ def generate_demand_report():
             send_email(email, subject, text_content, html_content, report_bytes, filename)
             
         if save_enabled and save_path:
-            clean_dir = save_path.strip().lstrip('/\\')
-            if not os.path.exists(clean_dir):
-                os.makedirs(clean_dir, exist_ok=True)
-            full_file_path = os.path.join(clean_dir, filename)
-            with open(full_file_path, "wb") as f:
-                f.write(report_bytes)
-            print(f"[ON-DEMAND] Saved report locally to {full_file_path}")
+            try:
+                clean_dir = save_path.strip().lstrip('/\\')
+                if os.environ.get("VERCEL"):
+                    clean_dir = os.path.join("/tmp", clean_dir)
+                if not os.path.exists(clean_dir):
+                    os.makedirs(clean_dir, exist_ok=True)
+                full_file_path = os.path.join(clean_dir, filename)
+                with open(full_file_path, "wb") as f:
+                    f.write(report_bytes)
+                print(f"[ON-DEMAND] Saved report locally to {full_file_path}")
+            except Exception as file_err:
+                print(f"[ON-DEMAND] Error saving report locally on serverless host: {file_err}")
             
         from flask import send_file
         return send_file(
