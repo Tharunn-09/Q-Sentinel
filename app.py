@@ -1230,21 +1230,77 @@ def compute_scan_stats(scan_results):
     cbom_count = 0
     for r in scan_results:
         raw = r.get('raw_response') or {}
-        risk = str(r.get('quantumRisk') or r.get('quantum_risk') or raw.get('quantumRisk') or raw.get('quantum_risk') or 'UNKNOWN').upper()
+        # Replicate client-side exact risk score computation
+        tls = r.get('tls') or r.get('tls_version') or raw.get('tls') or raw.get('tls_version') or ''
+        cipher = (r.get('cipher') or r.get('cipher_suite') or raw.get('cipher') or raw.get('cipher_suite') or '').upper()
+        algo = r.get('certAlgo') or r.get('cert_algo') or raw.get('certAlgo') or raw.get('cert_algo') or r.get('sigAlgo') or raw.get('sigAlgo') or 'RSA'
+        
+        # Try parsing key size
+        key_size = r.get('keySize') or r.get('key_size') or raw.get('keySize') or raw.get('key_size') or 2048
+        try:
+            key_size = int(key_size)
+        except:
+            key_size = 2048
+            
+        pqc = r.get('pqcDetected') or r.get('pqc_detected') or raw.get('pqcDetected') or raw.get('pqc_detected') or False
+        
         score = 0
-        if risk == 'CRITICAL':
-            score = 90
-            cbom_count += 1
-        elif risk == 'HIGH':
-            score = 75
-            cbom_count += 1
-        elif risk == 'MODERATE':
-            score = 50
-            cbom_count += 1
-        elif risk == 'LOW':
-            score = 10
-            low_count += 1
+        if pqc:
+            score += 0
+        else:
+            if algo == 'RSA':
+                if key_size <= 1024:
+                    score += 85
+                elif key_size <= 2048:
+                    score += 75
+                elif key_size <= 3072:
+                    score += 60
+                else:
+                    score += 45
+            elif algo in ['ECDSA', 'ECC']:
+                score += 70 if key_size <= 256 else 55
+            elif algo == 'DSA':
+                score += 85
+            else:
+                score += 60
+
+        if tls == 'TLS 1.0':
+            score += 20
+        elif tls == 'TLS 1.1':
+            score += 15
+        elif tls == 'TLS 1.2':
+            score += 5
+
+        if 'CBC' in cipher:
+            score += 15
+        if 'RC4' in cipher:
+            score += 25
+        if 'DES' in cipher and '3DES' not in cipher:
+            score += 20
+        if '3DES' in cipher:
+            score += 20
+        if 'NULL' in cipher or 'EXPORT' in cipher:
+            score += 30
+
+        if '128' in cipher and '256' not in cipher:
+            score += 10
+
+        if 'CHACHA20' in cipher:
+            score -= 10
+        if 'GCM' in cipher and 'CBC' not in cipher:
+            score -= 5
+        if tls == 'TLS 1.3':
+            score -= 8
+        if pqc:
+            score -= 30
+
+        score = max(0, min(100, score))
         scores.append(score)
+        
+        if score >= 51:
+            cbom_count += 1
+        elif score <= 25:
+            low_count += 1
     avg_score = sum(scores) / len(scores) if scores else 0
 
     # Calculate NIST PQC compliance score on the backend to match the frontend rating
